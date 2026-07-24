@@ -272,7 +272,9 @@ async fn transparent_proxy_redirects_cross_xite_paths_to_own_origin() {
         .await
         .unwrap();
     assert!(r.status().is_redirection(), "cross-xite path redirects: {}", r.status());
-    assert_eq!(r.headers()["location"].to_str().unwrap(), format!("//{talk}/"));
+    // Bare addresses redirect to their dotted `.epix` alias (dotless hosts
+    // trip browser search fixup / proxy bypass heuristics).
+    assert_eq!(r.headers()["location"].to_str().unwrap(), format!("//{talk}.epix/"));
 
     // Directory and query survive the redirect.
     let r = client
@@ -283,7 +285,7 @@ async fn transparent_proxy_redirects_cross_xite_paths_to_own_origin() {
         .await
         .unwrap();
     assert!(r.status().is_redirection());
-    assert_eq!(r.headers()["location"].to_str().unwrap(), format!("//{talk}/docs/?Topic:9"));
+    assert_eq!(r.headers()["location"].to_str().unwrap(), format!("//{talk}.epix/docs/?Topic:9"));
 
     // A named cross-xite path redirects to the name's origin.
     let r = client
