@@ -17,7 +17,8 @@
 use std::os::windows::ffi::OsStrExt;
 use std::path::Path;
 use std::sync::OnceLock;
-use windows_sys::Win32::Foundation::{BOOL, HWND, LPARAM};
+use windows_sys::core::BOOL;
+use windows_sys::Win32::Foundation::{HWND, LPARAM};
 use windows_sys::Win32::System::Threading::{
     OpenProcess, QueryFullProcessImageNameW, PROCESS_QUERY_LIMITED_INFORMATION,
 };
